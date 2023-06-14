@@ -1,0 +1,63 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "cpp",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "-std=c++11",
+                "-std=gnu++11",
+                "main.cpp",
+                "-o",
+                "main"
+            ],
+            "presentation": {
+                "reveal": "always",
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+		},
+		{
+			"label": "Test search",
+			"type": "shell",
+			"command": "g++",
+			"args": [
+				"main.cpp",
+				"-DSRC"
+				// "-o",
+				// "main"
+			],
+			"presentation": {
+				"reveal": "always",
+			},
+			"group": "build"
+		},
+        {
+            "label": "start",
+            "type": "shell",
+            "command": "./main",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "test def",
+            "type": "shell",
+            "command": "./main 5",
+            "group": "test"
+        },
+        {
+            "label": "test 2",
+            "type": "shell",
+            "command": "./main 0 1 2 3 4 5 6 7 8 9",
+            "group": "test"
+        }
+    ]
+}

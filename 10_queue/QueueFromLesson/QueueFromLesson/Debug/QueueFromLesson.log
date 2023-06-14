@@ -1,0 +1,4 @@
+﻿  QueueFromLesson.cpp
+C:\Users\User\source\repos\QueueFromLesson\QueueFromLesson\QueueFromLesson.cpp(104,1): warning C4326: return type of 'main' should be 'int' instead of 'void'
+C:\Users\User\source\repos\QueueFromLesson\QueueFromLesson\QueueFromLesson.cpp(105,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  QueueFromLesson.vcxproj -> C:\Users\User\source\repos\QueueFromLesson\Debug\QueueFromLesson.exe
