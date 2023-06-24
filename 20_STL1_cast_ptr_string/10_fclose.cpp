@@ -8,7 +8,7 @@ void f1()
 	if (!(f = fopen("test.txt", "rt")))
 	{
 		//не удалось открыть файл Ч выходим
-		exit(0);
+		throw 1;
 	}
 	//удалось, работаем с файлом дальше
 	//но, здесь может возникнуть исключение
@@ -25,7 +25,7 @@ public:
 	{
 		if (!(f = fopen(filename, mode)))
 		{
-			exit(0);
+			throw 1;
 		}
 	}
 	~FileOpen()
@@ -38,12 +38,18 @@ void f2()
 	FileOpen MyFile("test.txt", "r+");
 	//здесь выполн€ем нужную работу с файлом
 }
+/// TODO: добавить работу с файлом
 
 int main()
 // int main(int argc, char *argv[])
 {
-	f1();
-	f2();
+	try {
+		f1();
+		f2();
+	}
+	catch (...) {
+		cout << "Error with file!\n";
+	}
 
 	return 0;
 }

@@ -1,9 +1,11 @@
+// https://metanit.com/cpp/tutorial/16.5.php
+
 // #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
-#include <iterator>
+#include <algorithm> // sort, copy, for_each, greater...
+#include <iterator>  // ostream_iterator
 using namespace std;
 
 int main ()
@@ -18,9 +20,12 @@ int main ()
 	{
 		vector<int> arr{3, 5, 1, 8, -20};
 
-		copy(arr.begin(), arr.end(), ostream_iterator<int>(cout, " "));
-		cout << endl;
-
+		{
+			for(auto x : arr) {
+				cout << x <<" ";
+			}
+			cout << endl;
+		}
 		{
 			sort(begin(arr), end(arr));
 
@@ -30,11 +35,10 @@ int main ()
 			cout << endl;
 		}
 		{
-			sort(arr.begin(), arr.end(), greater<int>()); // default = std::less
+			sort(arr.begin(), arr.end(), greater<int>()); // default = std::less - функторы/предикаты
 
-			for(auto x : arr) {
-				cout << x <<" ";
-			}
+			copy(arr.begin(), arr.end(), ostream_iterator<int>(cout, " "));
+			cout << endl;
 		}
 	}
 

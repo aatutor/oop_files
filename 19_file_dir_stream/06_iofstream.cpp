@@ -5,21 +5,7 @@ using namespace std;
 void use_ofstream(const char* name);
 void use_ifstream(const char* name);
 void use_fstream(const char* name);
-
-struct A {
-	char str[10];
-	int x;
-};
-
-void use_struct(const char* name)
-{
-	A a{ "hello", 10 };
-	ofstream file(name, ios::out | ios::binary);
-
-	file.write((char*)&a, sizeof(a));
-
-	file.close();
-}
+void use_struct(const char* name);
 
 int main()
 {
@@ -96,3 +82,19 @@ void use_fstream(const char* name)
 
 	ioFile.close();
 }
+
+struct A {
+	char str[10];
+	int x;
+};
+
+void use_struct(const char* name)
+{
+	A a{ "hello", 10 };
+	ofstream file(name, ios::out | ios::binary);
+
+	file.write((char*)&a, sizeof(a));
+
+	file.close();
+}
+

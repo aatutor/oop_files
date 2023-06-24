@@ -6,8 +6,7 @@ void main()
 {
 	//Создаем вектор
 	vector<int> vect;
-	cout << "\nNumber of elements that could be
-		stored in the vector without "
+	cout << "\nNumber of elements that could be stored in the vector without "
 		 << "allocating more storage --> "
 		 << vect.capacity();
 	cout << "\n-----------------------------------";
@@ -18,11 +17,9 @@ void main()
 	vect.resize(4, 0); //изменяем размер, новые
 	//элементы заполнятся нулями
 	cout << "\nResizing...\n";
-	cout << "The number of elements in
-			the vector-- >
-		" << vect.size() << endl;
-			cout
-			<< "\nvector -->\t";
+	cout << "The number of elements in the vector-- >\n" 
+		<< vect.size() << endl;
+	cout << "\nvector -->\t";
 	for (int i = 0; i < vect.size(); i++)
 	{
 		cout << vect[i] << '\t';
@@ -30,10 +27,8 @@ void main()
 	cout << "\n-----------------------------------";
 	//максимальный размер вектора.
 	//Метод max_size() возвращает кол-во байт.
-	cout << "\nThe maximum possible length of the
-			vector-- >
-		"
-			<< vect.max_size() / 4;
+	cout << "\nThe maximum possible length of the vector-- > "
+		 << vect.max_size() / 4;
 	cout << "\n-----------------------------------";
 	vect.push_back(1); //вставляем единицу
 	//в конец вектора
@@ -45,8 +40,7 @@ void main()
 	cout << "\n-----------------------------------";
 	//создаем реверсный итератор и выставлем
 	//его на конец вектора
-	vector<int>::reverse_iterator i_riterator =
-		vect.rbegin();
+	vector<int>::reverse_iterator i_riterator = vect.rbegin();
 	cout << "\nreverse_iterator\nvector -->\t";
 	//выводим содержимое векртора на экран используя
 	//реверсный итератор

@@ -17,13 +17,14 @@ using namespace std;
 // 	char message[100];
 // 	//перевод строки из кодировки Windows
 // 	//в кодировку MS DOS
-// 	CharToOemA(str, message); // .cpp должен быть в кодировке 1251
-// 	cout<<message;          // а консоль - в 866
+// 	CharToOemA(str, message); 	// .cpp должен быть в кодировке 1251
+// 	cout<<message;          	// а консоль - в 866
 // }
-// const char* ru(const char *str)
+// char* ru(const char *str)
 // {
-// 	CharToOemA(str, str);
-// 	return str;
+// 	char *rus = new char[strlen(str)];
+// 	CharToOemA(str, rus);
+// 	return rus;
 // }
 // void Test()
 // {
@@ -42,6 +43,7 @@ ostream& operator << (ostream& out, const char* str){
 
 /// TODO: add cin >> rus
 
+/// TODO: починить абс. путь и корень
 void RemoveRSpacesAndRSlashes(char *str)
 {
 	int index = strlen(str) - 1;
@@ -58,32 +60,37 @@ bool IsDir(const char* path)
 	int group = _findfirst(path, &find);
 	_findclose(group);
 
-	return (find.attrib & _A_SUBDIR) != 0;
+	return (group != -1) && (find.attrib & _A_SUBDIR) != 0;
 }
 
-void ShowListOn(const char path[])
+//Показ содержимого текущей директории
+void ShowDirList(const char path[])
 {
-	if (!IsDir(path)) {
+	if ( !IsDir(path) ) {
 		cout << "Такой Директории Нет" << endl;
 		return;
 	}
-	//Показ содержимого текущей директории
 	_finddata_t find;
 
 	string pathDir {path};
 	pathDir.append("\\*");
 	intptr_t group = _findfirst(pathDir.c_str(), &find);
-	// intptr_t group = _findfirst(string{path}.append("\\*").c_str(), &find);
+
+	// intptr_t group = _findfirst(
+	// 		string{path}.append("\\*").c_str(), &find); // вариант без переменной
 
 	if (group == -1)
-		goto finish;
+		return; // почему не вызываем _findclose?
+
 	do {
 		if (strcmp(find.name, ".") && strcmp(find.name, ".."))
-			cout << ((find.attrib & _A_SUBDIR) != 0
-					? " Каталог: " : " Файл: ")
+		{
+			cout << ((find.attrib & _A_SUBDIR) != 0 ? 
+					" Каталог: " : " Файл: ")
 					<< find.name << endl;
+		}
 	} while (_findnext(group, &find) != -1);
-finish:
+
 	_findclose(group);
 }
 
@@ -96,18 +103,18 @@ bool cd(char* path, char* command)
 	strcpy(command, command + countSpaces + 2);
 
 	if ( !strcmp(command, ".") || !strcmp(command, "/") )
-	{
+	{	// не нужно менять директорию
 		return true;
 	}
-	else if ( strchr(command, ':') )
-	{
+	if ( strchr(command, ':') )
+	{	// введен абсолютный путь
 		if ( !IsDir(command) )
 			return false;
 		strcpy(path, command);
 		return true;
 	}
-	else if ( !strcmp(command, "..") )
-	{
+	if ( !strcmp(command, "..") )
+	{	// перейти на каталог выше
 		char *lastSlash = strrchr(path, '\\');
 		if (lastSlash)
 		{
@@ -117,12 +124,12 @@ bool cd(char* path, char* command)
 		}
 		else
 			strcpy(temp, path);
-
+// TODO: проверить актуальность:
 		//if (!IsDir(temp))
 		//	return false;
 	}
-	else // указан неполный путь
-	{
+	else 
+	{	// указан неполный путь
 		strcpy(temp, path);
 		strcat(temp, "\\");
 		strcat(temp, command);
@@ -130,7 +137,7 @@ bool cd(char* path, char* command)
 		if (!IsDir(temp))
 			return false;
 	}
-	strcpy(path, temp);
+	strcpy(path, temp);	// поменять путь
 	return true;
 }
 
@@ -142,7 +149,7 @@ void Explorer()
 	char command[SIZE];
 
 	GetCurrentDirectoryA(sizeof(path), path);
-	ShowListOn(path);
+	ShowDirList(path);
 
 	while (true)
 	{
@@ -166,7 +173,7 @@ void Explorer()
 				continue;
 			}
 		}
-		ShowListOn(path);
+		ShowDirList(path);
 	}
 }
 

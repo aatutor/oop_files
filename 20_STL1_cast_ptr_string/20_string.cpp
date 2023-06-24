@@ -5,19 +5,25 @@ using namespace std;
 int main()
 // int main(int argc, char *argv[])
 {
-	//Присвоить строку символов объекту типа string
-	string s = "Hello world";
+	string w1 = "Hello";
+	string w2 = "world";
+
+	string s = w1 + ' ' + w2;
+
+	s.append("!");
+
+	cout << s << endl;
+
 	// Получить первое слово в строке
 	int nWordEnd = s.find(' ');
 	string sub_string = s.substr(0, nWordEnd);
-	// Вывести результаты
-	printf("String: %s\n", s.c_str());
-	printf("Sub String: %s\n", sub_string.c_str());
+
+	cout << "1st word: " << sub_string << endl;
 
 	return 0;
 }
 
-// Список наиболее часто используемых функций класса string.
+// Список наиболее часто используемых методов класса string.
 //	operator[] — доступ к конкретным символам в строке для чтения или записи
 //	c_str() — конвертация строки в const char* для использования в функциях, не умеющих работать со string
 //	append — добавление символов к концу строки

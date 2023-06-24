@@ -23,11 +23,10 @@ int main()
 		FILE* file = fopen("test.txt", "w");
 		if (!file)
 			return 1;
-#ifdef N1
+
 		fwrite(src, sizeof(Man), 2, file);
-#else
-		fwrite(src, sizeof(src), 1, file);
-#endif
+		// fwrite(src, sizeof(src), 1, file);
+		
 		fclose(file);
 	}
 	{
@@ -37,11 +36,10 @@ int main()
 		FILE* file = fopen("test.txt", "r");
 		if (!file)
 			return 1;
-#ifdef N1
+
 		fread(dest, sizeof(Man), 2, file);
-#else
-		fread(dest, sizeof(dest), 1, file);
-#endif
+		// fread(dest, sizeof(dest), 1, file);
+
 		fclose(file);
 
 		cout << "name: " << dest[0].str

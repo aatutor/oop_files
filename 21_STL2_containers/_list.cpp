@@ -12,14 +12,12 @@ void ShowLists(ourList &l1, ourList &l2)
 		//выводим элемент на который указывает итератор
 		cout << *iter << " ";
 	}
-	cout << endl
-		 << "list2: ";
+	cout << endl << "list2: ";
 	for (iter = l2.begin(); iter != l2.end(); iter++)
 	{
 		cout << *iter << " ";
 	}
-	cout << endl
-		 << endl;
+	cout << endl << endl;
 }
 void main()
 {
