@@ -2,27 +2,39 @@
 using namespace std;
 
 struct Elem {
-	char name[20];
+	char name[0];
 	int ownerPoints;
 	int oppPoints;
-	char opp[20];
+	char opp[0];
 	char match[10];
 	Elem *left = nullptr;
 	Elem *right = nullptr;
 	Elem *parent = nullptr;
 };
+struct Cat {
+	int size;
+	char* name[100];
+	bool operator <=>
+}
+struct Node {
+	Cat value;
+	Cat* left;
+	Cat* right;
+	Cat* parent;
+}
 class Tree {
-	Elem* root = nullptr;
+	Node* root_ = nullptr;
 public:
-	void insert(Elem *z) {
-		if (!root) {
-			root = z;
+	void Insert(Cat *z) {
+		Node* temp = new Node{ z };
+		if (root_ == nullptr) {
+			root_ = z;
 			return;
 		}
-		Elem * prnt = nullptr;
-		Elem * temp = root;
+		Cat* prnt = nullptr;
+		Cat* temp = root_;
 
-		while (temp) {
+		while (temp != nullptr) {
 			prnt = temp;
 			if (strcmp(z->name, temp->name) < 0)
 				temp = temp->left;
@@ -35,65 +47,30 @@ public:
 		else
 			prnt->right = z;
 	}
-	void del(Elem* z = nullptr) {
+	void Delete(Cat* z = nullptr) {
 		if (!z) {
-			while (root)
-				del(root);
+			while (root_)
+				Delete(root_);
 			return;
 		}
-		Elem* temp, *prnt;
-		if (z->left == 0 || z->right == 0)
-			prnt = z;
-		else
-			prnt = next(z);
-
-		if (prnt->left)
-			temp = prnt->left;
-		else
-			temp = prnt->right;
-
-		if (temp)
-			temp->parent = prnt->parent;
-
-		if (prnt->parent == 0)
-			root = temp;
-		else if (prnt == prnt->parent->left)
-			prnt->parent->left = temp;
-		else
-			prnt->parent->right = temp;
-		if (prnt != z) {
-			strcpy(z->name, prnt->name);
-			strcpy(z->opp, prnt->opp);
-			strcpy(z->match, prnt->match);
-			z->oppPoints = prnt->oppPoints;
-			z->ownerPoints = prnt->ownerPoints;
-		}
-		delete prnt;
-	}
-	void del1(Elem* z = nullptr) {
-		if (!z) {
-			while (root)
-				del1(root);
-			return;
-		}
-		if (root == z) {
+		if (root_ == z) {
 			if (z->left == 0 && z->right == 0)
-				root = nullptr;
+				root_ = nullptr;
 			else if (z->left != 0 && z->right != 0) {
-				root = z->right;
+				root_ = z->right;
 				z->right->parent = nullptr;
 
-				Elem* temp = next(z);
+				Cat* temp = Next(z);
 				temp->left = z->left;
 				z->left->parent = temp;
 			}
 			else if (z->left != 0) {
 				z->left->parent = nullptr;
-				root = z->left;
+				root_ = z->left;
 			}
 			else {
 				z->right->parent = nullptr;
-				root = z->right;
+				root_ = z->right;
 			}
 		}
 		else if (z->left == 0 && z->right == 0) {
@@ -109,7 +86,7 @@ public:
 				z->parent->left == z->right;
 			z->right->parent = z->parent;
 
-			Elem* temp = next(z);
+			Cat* temp = Next(z);
 			temp->left = z->left;
 			z->left->parent = temp;
 		}
@@ -123,11 +100,11 @@ public:
 		}
 		delete z;
 	}
-	Elem * next(Elem* z) {
-		Elem* prnt = nullptr;
+	Cat * Next(Cat* z) {
+		Cat* prnt = nullptr;
 		if (z) {
 			if (z->right)
-				return min(z->right);
+				return Min(z->right);
 
 			prnt = z->parent;
 			while (prnt && z == prnt->right) {
@@ -137,7 +114,7 @@ public:
 		}
 		return prnt;
 	}
-	Elem* min(Elem* z) {
+	Cat* Min(Cat* z) {
 		if (z)
 			while (z->left)
 				z = z->left;
@@ -148,12 +125,12 @@ public:
 int main()
 {
 	Tree tree;
-	Elem *a = new Elem,
-		*b = new Elem,
-		*c = new Elem;
+	Cat *a = new Cat,
+		*b = new Cat,
+		*c = new Cat;
 	// init a, b, c
-	tree.insert(a);
-	tree.insert(b);
-	tree.insert(c);
+	tree.Insert(a);
+	tree.Insert(b);
+	tree.Insert(c);
 
 }

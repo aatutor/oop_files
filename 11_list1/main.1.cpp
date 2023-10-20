@@ -111,6 +111,9 @@ public:
 		delete temp;
 	}
 	void Insert(int pos, int val) {
+		if ( IsEmpty() || pos == 0)
+			AddBefore(val);
+
 		Node* temp = new Node{ val };
 
 		Node* current = top_;
@@ -131,13 +134,13 @@ void Demo()
 	list.PushBack(2);
 	list.PushBack(5);
 	list.Print();
-	cout << list.GetSize() << endl;
+	cout <<"size: "<< list.GetSize() << endl;
 	list.AddBefore(4);
-	list.Insert(7, 10);
+	list.Insert(2, 10);
 	list.Print();
-	cout << "5 on "<< list.Search(5) + 1 << " position" << endl;
-	list.Remove(3);
-	cout << "Removed 3\n";
+	cout << "2 on "<< list.Search(2) + 1 << " position" << endl;
+	list.Remove(2);
+	cout << "Removed 2\n";
 	list.Print();
 }
 

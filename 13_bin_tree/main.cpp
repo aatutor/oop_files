@@ -1,172 +1,72 @@
 #include <iostream>
+#include "ElemTree.cc"
 using namespace std;
 
-struct Elem {
-	char name[20];
-	int ownerPoints;
-	int oppPoints;
-	char opp[20];
-	char match[10];
-	Elem *left = nullptr;
-	Elem *right = nullptr;
-	Elem *parent = nullptr;
-};
-struct Cat {
-	int size;
-	char* name[100];
-	bool operator <=>
-}
-struct Node {
-	Cat value;
-	Cat* left;
-	Cat* right;
-	Cat* parent;
-}
-class Tree {
-	Node* root_ = nullptr;
-public:
-	void Insert(Cat *z) {
-		Node* temp = new Node{ z };
-		if (root_ == nullptr) {
-			root_ = z;
-			return;
-		}
-		Cat* prnt = nullptr;
-		Cat* temp = root_;
-
-		while (temp != nullptr) {
-			prnt = temp;
-			if (strcmp(z->name, temp->name) < 0)
-				temp = temp->left;
-			else
-				temp = temp->right;
-		}
-		z->parent = prnt;
-		if (strcmp(z->name, prnt->name) < 0)
-			prnt->left = z;
-		else
-			prnt->right = z;
-	}
-	void Delete(Cat* z = nullptr) {
-		if (!z) {
-			while (root_)
-				Delete(root_);
-			return;
-		}
-		Cat* temp, *prnt;
-		if (z->left == 0 || z->right == 0)
-			prnt = z;
-		else
-			prnt = Next(z);
-
-		if (prnt->left)
-			temp = prnt->left;
-		else
-			temp = prnt->right;
-
-		if (temp)
-			temp->parent = prnt->parent;
-
-		if (prnt->parent == 0)
-			root_ = temp;
-		else if (prnt == prnt->parent->left)
-			prnt->parent->left = temp;
-		else
-			prnt->parent->right = temp;
-		
-		if (prnt != z) {
-			strcpy(z->name, prnt->name);
-			strcpy(z->opp, prnt->opp);
-			strcpy(z->match, prnt->match);
-			z->oppPoints = prnt->oppPoints;
-			z->ownerPoints = prnt->ownerPoints;
-		}
-		delete prnt;
-	}
-	void Del2(Cat* z = nullptr) {
-		if (!z) {
-			while (root_)
-				Del2(root_);
-			return;
-		}
-		if (root_ == z) {
-			if (z->left == 0 && z->right == 0)
-				root_ = nullptr;
-			else if (z->left != 0 && z->right != 0) {
-				root_ = z->right;
-				z->right->parent = nullptr;
-
-				Cat* temp = Next(z);
-				temp->left = z->left;
-				z->left->parent = temp;
-			}
-			else if (z->left != 0) {
-				z->left->parent = nullptr;
-				root_ = z->left;
-			}
-			else {
-				z->right->parent = nullptr;
-				root_ = z->right;
-			}
-		}
-		else if (z->left == 0 && z->right == 0) {
-			if (z == z->parent->right)
-				z->parent->right == nullptr;
-			else
-				z->parent->left == nullptr;
-		}
-		else if (z->left != 0 && z->right != 0) {
-			if (z == z->parent->right)
-				z->parent->right == z->right;
-			else
-				z->parent->left == z->right;
-			z->right->parent = z->parent;
-
-			Cat* temp = Next(z);
-			temp->left = z->left;
-			z->left->parent = temp;
-		}
-		else if (z->left != 0) {
-			z->left->parent = z->parent;
-			z->parent->left = z->left;
-		}
-		else {
-			z->right->parent = z->parent;
-			z->parent->right = z->right;
-		}
-		delete z;
-	}
-	Cat * Next(Cat* z) {
-		Cat* prnt = nullptr;
-		if (z) {
-			if (z->right)
-				return Min(z->right);
-
-			prnt = z->parent;
-			while (prnt && z == prnt->right) {
-				z = prnt;
-				prnt = prnt->parent;
-			}
-		}
-		return prnt;
-	}
-	Cat* Min(Cat* z) {
-		if (z)
-			while (z->left)
-				z = z->left;
-		return z;
-	}
-};
+void Tests();
 
 int main()
 {
-	Tree tree;
-	Cat *a = new Cat,
-		*b = new Cat,
-		*c = new Cat;
-	// init a, b, c
-	tree.Insert(a);
-	tree.Insert(b);
-	tree.Insert(c);
+	Tests();
+}
 
+void TestCtor() {
+	ElemTree t{
+		{1,'z'},
+		{3,'x'},
+		{0,'c'}
+	};
+	cout << "must: c z x\n";
+	t.Print();
+	cout << "c-tor & print done\n";
+}
+ElemTree* CreateTree() {
+	return new ElemTree{
+		{1,'z'},
+		{3,'x'},
+		{0,'c'}
+	};
+}
+void Console(bool flag, const char* msg) {
+	cout << (flag ? "ok" : "fail") << ": " << msg << endl;
+}
+bool CheckElemIn(ElemTree* tree, Element* elem) {
+	Element* temp = tree->Search(elem->key);
+	return temp ? temp->value == elem->value : false;
+}
+void TestSrch() {
+	Element* a = new Element{1, 'a'},
+			*b = new Element{2, 'b'},
+			*c = new Element{0, 'c'};
+	ElemTree t({*a, *b, *c});
+	Console( CheckElemIn(&t, a)
+			&& CheckElemIn(&t, b) 
+			&& CheckElemIn(&t, c) 
+			, "Search");
+	// Console(   t->Search(0)->value == 'c'
+	// 		&& t->Search(1)->value == 'z' 
+	// 		&& t->Search(3)->value == 'x' 
+	// 		, "Search");
+}
+
+void TestEmpty() {
+	cout << "TestEmpty\n";
+	ElemTree t;
+	Element* a = new Element {1, 'a'};
+
+	t.Print();
+	Console(1, "Print empty");
+	Console(CheckElemIn(&t, a) == 0, "Search empty");
+
+	t.Insert(a);
+	Console( CheckElemIn(&t, a), "Insert empty");
+}
+
+void Tests() 
+{
+	TestCtor();
+	TestSrch();
+	TestEmpty();
+	ElemTree* t = CreateTree();
+	cout << CheckElemIn(t, new Element{0, 'c'}) << ": check element in tree\n";
+	delete t;
 }

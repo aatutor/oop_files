@@ -26,9 +26,8 @@ int* Sum(int point1[2], int point2[2])
 	// return new int[2]{ point1[0] + point2[0], point1[1] + point2[1] }; 
 }
 
-char* GetString(int point[2]) 
+void PointToStr(int point[2], char* str)
 {
-	char* str = new char[100];
 	sprintf(str, "(%d, %d)", point[0], point[1]);
 	return str;
 }
@@ -44,7 +43,9 @@ void Test()
 	{
 		int arrPoint[2]{3, 4};
 		Print(arrPoint);
-		//cout << GetString(arrPoint) << endl;
+		char str[100];
+		PointToStr(arrPoint, str);
+		cout << str << endl;
 	}
 	{
 		int point1[2]{1, 2};

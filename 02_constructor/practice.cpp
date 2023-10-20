@@ -30,7 +30,7 @@ int main()
     const char* studentName{ "Petrov A.O." };
     int studentMarks[]{ 4,4,3 };
 
-    student.InitStudent(studentName, studentMarks, 3);
+    student.InitStudent(studentName, int[]{1, 2 ,3}, 3);
     student.PrintStudent();
     cout << "Average mark: "
         << fixed << setprecision(2)
