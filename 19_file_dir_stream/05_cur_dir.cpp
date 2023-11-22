@@ -12,26 +12,27 @@
 #include <io.h>
 using namespace std;
 
+#if 0
 //‘ункци€, вывод€ща€ на экран строку
-// void RussianMessage(char *str){
-// 	char message[100];
-// 	//перевод строки из кодировки Windows
-// 	//в кодировку MS DOS
-// 	CharToOemA(str, message); 	// .cpp должен быть в кодировке 1251
-// 	cout<<message;          	// а консоль - в 866
-// }
-// char* ru(const char *str)
-// {
-// 	char *rus = new char[strlen(str)];
-// 	CharToOemA(str, rus);
-// 	return rus;
-// }
-// void Test()
-// {
-// 	cout << ru("привет мир") << endl;
-// 	RussianMessage("хороший день");
-// }
-
+void RussianMessage(char *str){
+	char message[100];
+	//перевод строки из кодировки Windows
+	//в кодировку MS DOS
+	CharToOemA(str, message); 	// .cpp должен быть в кодировке 1251
+	cout<<message;          	// а консоль - в 866
+}
+char* ru(const char *str)
+{
+	char *rus = new char[strlen(str)]; 
+	CharToOemA(str, rus);
+	return rus; // плохой кос€к!
+}
+void Test()
+{
+	cout << ru("привет мир") << endl;
+	RussianMessage("хороший день");
+}
+#else
 ostream& operator << (ostream& out, const char* str){
 	char rus[256];
 	CharToOemA(str, rus);
@@ -39,6 +40,7 @@ ostream& operator << (ostream& out, const char* str){
 	std::operator<<(out, rus);
 	return out;
 }
+#endif
 // cout << "нормальный русский" << endl;
 
 /// TODO: add cin >> rus
@@ -66,14 +68,15 @@ bool IsDir(const char* path)
 //ѕоказ содержимого текущей директории
 void ShowDirList(const char path[])
 {
-	if ( !IsDir(path) ) {
+	if ( IsDir(path) == 0 ) {
 		cout << "“акой ƒиректории Ќет" << endl;
 		return;
 	}
 	_finddata_t find;
 
 	string pathDir {path};
-	pathDir.append("\\*");
+	// pathDir.append("\\*");
+	pathDir += "\\*";
 	intptr_t group = _findfirst(pathDir.c_str(), &find);
 
 	// intptr_t group = _findfirst(

@@ -45,15 +45,37 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+#if 1 // 1 - long variant
 void srch(string&&);
 void srch(const char* name) {
+#if 1 // oop style
 	srch(string{ name });
+#else
+	_finddata_t* fileInfo = new _finddata_t;
+	char* path = strcat(name, "*");
+	long group = _findfirst(path, fileInfo);
+	// long group = _findfirst(name.append("*").c_str(), fileInfo);
+ 
+	int count = 0;
+	int srchResult = group;
+	while (srchResult != -1) {
+		count++;
+		if (fileInfo->attrib & _A_SUBDIR)
+			cout << fileInfo->size << " ";
+		cout << fileInfo->name << endl;
+		srchResult = _findnext(group, fileInfo);
+	}
+	cout << "Count: " << count << endl;
+
+	_findclose(group);
+	delete fileInfo;
+#endif
 }
 
 void srch(string&& name) 
 {
 	_finddata_t* fileInfo = new _finddata_t;
-	string path = name + string{"*"};
+	string path = name + "*";
 	long group = _findfirst(path.c_str(), fileInfo);
 	// long group = _findfirst(name.append("*").c_str(), fileInfo);
  
@@ -71,3 +93,41 @@ void srch(string&& name)
 	_findclose(group);
 	delete fileInfo;
 }
+
+#else
+#define OOPSTL 1
+
+void srch(string&&);
+void srch(const char* name) {
+#if OOPSTL
+	srch(string{ name });
+}
+void srch(string&& name) 
+{
+#endif
+
+	_finddata_t* fileInfo = new _finddata_t;
+
+#if OOPSTL
+	string path = name + "*";
+	long group = _findfirst(path.c_str(), fileInfo);
+#else
+	char* path = strcat(name, "*");
+	long group = _findfirst(path, fileInfo);
+	// long group = _findfirst(name.append("*").c_str(), fileInfo);
+#endif
+	int count = 0;
+	int srchResult = group;
+	while (srchResult != -1) {
+		count++;
+		if (fileInfo->attrib & _A_SUBDIR)
+			cout << fileInfo->size << " ";
+		cout << fileInfo->name << endl;
+		srchResult = _findnext(group, fileInfo);
+	}
+	cout << "Count: " << count << endl;
+
+	_findclose(group);
+	delete fileInfo;
+}
+#endif

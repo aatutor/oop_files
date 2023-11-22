@@ -3,24 +3,24 @@
 using namespace std;
 
 //базовый класс
-class B
+class A
 {
 public:
 	//виртуальна€ функци€ дл€
 	//последующего переопределени€ в потомке
 	virtual void Test()
 	{
-		cout << "Test B\n\n";
+		cout << "Test A\n\n";
 	}
 };
 //класс-потомок
-class D : public B
+class B : public A
 {
 public:
 	//переопределение виртуальной функции
 	void Test() override
 	{
-		cout << "Test D\n\n";
+		cout << "Test B\n\n";
 	}
 };
 
@@ -29,79 +29,48 @@ int main()
 {
 	//указатель на класс-родитель
 	//объект класса-родител€
-	B *ptr_b, obj_b;
+	A *ptr_a, obj_a;
+
 	//указатель на класс-потомок
 	//и объект класса-потомка
-	D *ptr_d, obj_d;
-	//приводим адрес объекта (D*) к указателю типа D*
-	ptr_d = dynamic_cast<D *>(&obj_d);
-	//если все прошло успешно Ч вернулс€ !0
-	//произошло приведение
-	if (ptr_d)
-	{
-		cout << "Good work Ч ";
-		//здесь вызов функции класса-потомка
-		//на экране Ч Test D
-		ptr_d->Test();
-	}
-	//если произошла ошибка Ч вернулс€ 0
-	else
-		cout << "Error work!!!\n\n";
-
-	//приводим адрес объекта (D*) к указателю типа B*
-	ptr_b = dynamic_cast<B *>(&obj_d);
-	//если все прошло успешно Ч вернулс€ !0
-	//произошло приведение
-	if (ptr_b)
-	{
-		cout << "Good work Ч ";
-		//здесь вызов функции класса-потомка
-		//на экране Ч Test D
-		ptr_b->Test();
-	}
-	//если произошла ошибка Ч вернулс€ 0
-	else
-		cout << "Error work!!!\n\n";
-
-	//приводим адрес объекта (D*) к указателю типа B*
-	ptr_b = dynamic_cast<B *>(&obj_d);
-	//если все прошло успешно Ч вернулс€ !0
-	//произошло приведение
-	if (ptr_b)
-	{
-		cout << "Good work Ч ";
-		//здесь вызов функции класса-потомка
-		//на экране Ч Test D
-		ptr_b->Test();
-	}
-	//если произошла ошибка Ч вернулс€ 0
-	else
-		cout << "Error work!!!\n\n";
+	B *ptr_b, obj_b;
 
 	//приводим адрес объекта (B*) к указателю типа B*
-	ptr_b = dynamic_cast<B *>(&obj_b);
-	//если все прошло успешно Ч вернулс€ !0
+	ptr_b = dynamic_cast<B*>(&obj_b);
+
+	//если все прошло успешно - вернулс€ !0
 	//произошло приведение
 	if (ptr_b)
 	{
-		cout << "Good work Ч ";
-		//здесь вызов функции класса-потомка
-		//на экране Ч Test B
+		cout << "Good work - ";
 		ptr_b->Test();
 	}
-	//если произошла ошибка Ч вернулс€ 0
+	else //если произошла ошибка - вернулс€ nullptr
+		cout << "Error work!!!\n\n";
+
+	ptr_a = dynamic_cast<A*>(&obj_a);
+	if (ptr_a)
+	{
+		cout << "Good work - ";
+		ptr_a->Test();
+	}
 	else
 		cout << "Error work!!!\n\n";
-	//¬Ќ»ћјЌ»≈!!! Ё“ќ Ќ≈¬ќ«ћќ∆Ќќ
 
-	//попытка привести адрес объекта (B*)
-	//к указателю типа D*
-	ptr_d = dynamic_cast<D *>(&obj_b);
-	//если все прошло успешно Ч вернулс€ !0
-	//произошло приведение
-	if (ptr_d)
-		cout << "Good work Ч ";
-	//если произошла ошибка Ч вернулс€ 0
+	ptr_a = dynamic_cast<A*>(&obj_b);
+	if (ptr_a)
+	{
+		cout << "Good work - ";
+		ptr_a->Test();
+	}
+	else
+		cout << "Error work!!!\n\n";
+	
+	//¬Ќ»ћјЌ»≈!!! Ё“ќ Ќ≈¬ќ«ћќ∆Ќќ
+	ptr_b = dynamic_cast<B*>(&obj_a); // warning: dynamic_cast of 'A obj_a' to 'class B*' can never succeed
+	
+	if (ptr_b)
+		cout << "Good work - ";
 	else
 		cout << "Error work!!!\n\n";
 		

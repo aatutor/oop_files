@@ -3,71 +3,53 @@
 #include <string>
 using namespace std;
 
-class Person {
-	char name_[100];
-	short age_;
+class Point {
+	int x_;
+	int y_;
 public:
-	Person(const char name[100], short age): age_(age) {
-		strcpy(name_, name);
-	}
-	void Info() {
-		using namespace std;
-		cout << "\nName: " << name_ <<"\nAge: "<< age_ << endl; 
+	virtual void Info() {
+		cout <<"O("<< x_ <<","<< y_ <<")\n";
 	}
 };
-class Student: public Person {
-	int group_;
+
+class Circle: public Point {
+	double r_;
 public:
-	Student(const char name[100], short age, int grp): Person(name, age), group_(grp) {}
-	void Info() {
-		Person::Info();
-		cout << "Post: Student\nGroup: "<< group_ << endl;
+	void Info() override {
+		cout <<"Radius: "<< r_ << endl;
 	}
 };
-class Teacher: public Person {
-	char education_[50];
+class Square: public Point {
+	int a_;
 public:
-	Teacher(const char name[100], short age, const char edu[50]): Person(name, age) {
-		strcpy(education_, edu);
-	}
-	void Info() {
-		Person::Info();
-		cout << "Post: Teacher\nEducation: "<< education_ << endl;
+	void Info() override {
+		cout <<"Side: "<< a_ << endl;
 	}
 };
+
 
 void Test() 
 {
 	using namespace std;
 	{
-		Teacher t("Einstein", 42, "professor");
-		t.Info();
-		Student s("Ivan", 20, 321);
-		s.Info();
+		Point* p = new Point();
+		p->Info();
 	}
 	cout << string(15, '-') << endl;
 	{
-		Teacher* t = new Teacher("Einstein", 42, "professor");
-		t->Info();
-		Student* s = new Student("Ivan", 20, 321);
-		s->Info();
+		Point* arr[3] {
+			new Point(),
+			new Circle(),
+			new Square()
+		};
+		for(int i=0; i!=3;++i)
+			arr[i]->Info();
 	}
 	cout << string(15, '-') << endl;
 	{
-		Person* pt = new Teacher("Einstein", 42, "professor");
-		pt->Info();
-		Person* ps = new Student("Ivan", 20, 321);
-		ps->Info();
 	}
 	cout << string(15, '-') << endl;
 	{
-		Person** person = new Person*[2];
-
-		person[0] = new Teacher("Einstein", 42, "professor");
-		person[1] = new Student("Ivan", 20, 321);
-
-		person[0]->Info();
-		person[1]->Info();
 	}
 }
 

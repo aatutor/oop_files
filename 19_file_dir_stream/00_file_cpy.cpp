@@ -4,12 +4,46 @@
 #include <io.h>
 #include <stdio.h>
 #include <string>
-using namespace std;
 
-bool CopyFile(const char*, const char*);
+//Функция копирования файла
+bool CopyFile(const char *source, const char *destination)
+{
+	FILE *src, *dest;
+
+	// Открытие Файла
+	if ( (src = fopen(source, "rb")) == 0 ){
+		return false;
+	}
+	// Открытие файла, куда будет производиться копирование
+	if ( (dest = fopen(destination, "wb")) == 0 ) {
+		return false;
+	}
+
+	{
+		// Получение дескриптора файла
+		int handle = _fileno(src);
+		long len = _filelength(handle);
+	}
+	while (!feof(src))
+	{
+		const int SIZE = 65536;
+		//выделение памяти под буффер
+		char buf[SIZE];
+		//Чтение данных из файла
+		int realsize = fread(buf, sizeof(char), SIZE, src);
+		//Запись данных в файл
+		fwrite(buf, sizeof(char), realsize, dest);
+	}
+
+	//Закрытие файлов
+	fclose(src);
+	fclose(dest);
+	return true;
+}
 
 void Test1()
 {
+	using namespace std;
 	{
 		FILE* file = fopen("test.txt", "w");
 		fputs("int main()\n{\n\tcout << \"Hello World\" << endl;\n}", file);
@@ -26,6 +60,8 @@ void Test1()
 }
 void Test2()
 {
+	using namespace std;
+	
 	char source[]{"test.txt"};
 	char clone[]{"clone"};
 	{
@@ -70,38 +106,3 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-//Функция копирования файла
-bool CopyFile(const char *source, const char *destination)
-{
-	FILE *src, *dest;
-
-	// Открытие Файла
-	if (!(src = fopen(source, "rb"))){
-		return false;
-	}
-	// Открытие файла, куда будет производиться копирование
-	if (!(dest = fopen(destination, "wb"))) {
-		return false;
-	}
-
-	{
-		// Получение дескриптора файла
-		int handle = _fileno(src);
-		long len = _filelength(handle);
-	}
-	while (!feof(src))
-	{
-		const int SIZE = 65536;
-		//выделение памяти под буффер
-		char buf[SIZE];
-		//Чтение данных из файла
-		int realsize = fread(buf, sizeof(char), SIZE, src);
-		//Запись данных в файл
-		fwrite(buf, sizeof(char), realsize, dest);
-	}
-
-	//Закрытие файлов
-	fclose(src);
-	fclose(dest);
-	return true;
-}

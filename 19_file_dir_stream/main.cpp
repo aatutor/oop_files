@@ -1,3 +1,7 @@
+/*
+	start with:
+	g++ main.cpp -D1 -o main
+*/
 #include <iostream>
 #include <io.h>
 using namespace std;

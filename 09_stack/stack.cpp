@@ -20,14 +20,14 @@ public:
 		return top_ + 1; 
 	}
 
-	void push(int c) {
+	void Push(int c) {
 		if (IsFull())
 			return;
 		top_++;
 		st_[top_] = c;
 		//st_[++top_] = c;
 	}
-	int pop() {
+	int Pop() {
 		if (IsEmpty())
 			return -1;// -1 - плохо, но пока сойдет
 		top_--;
@@ -39,12 +39,12 @@ public:
 int main()
 {
 	Stack s;
-	s.push(2);
-	s.push(5);
-	s.push(1);
-	cout << s.pop() << endl;
-	cout << s.pop() << endl;
-	cout << s.pop() << endl;
+	s.Push(2);
+	s.Push(5);
+	s.Push(1);
+	cout << s.Pop() << endl;
+	cout << s.Pop() << endl;
+	cout << s.Pop() << endl;
 
 	return 0;
 }

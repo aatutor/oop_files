@@ -7,55 +7,46 @@ using namespace std;
 
 struct Elem
 {
-    int value;
-    Elem *left, *right, *parent;
+    int key;
+    Elem* left, *right, *parent;
 };
 
 class Tree
 {
     //корень
-    Elem *root_;
+    Elem* root_ = nullptr;
 
 public:
-    Tree();
     ~Tree();
     //Печасть всего содержимого
     void Print();
     //печать от указанного узла
-    void Print(Elem *node);
+    void Print(Elem*);
     //поиск от указанного узла
-    Elem *Search(Elem *node, int value);
+    Elem* Search(Elem*, int key);
     //min от указанного узла
-    Elem *Min(Elem *node);
+    Elem* Min(Elem*);
     //max от указанного узла
-    Elem *Max(Elem *node);
+    Elem* Max(Elem*);
     //следующий для указанного узла
-    Elem *Next(Elem *node);
+    Elem* Next(Elem*);
     //предыдущий для указанного узла
-    Elem *Previous(Elem *node);
+    Elem* Previous(Elem*);
     //вставка узла
-    void Insert(Elem *node);
+    void Insert(Elem*);
     //удаление ветки для указанного узла,
     //0 - удаление всего дерева
-    void Delete(Elem *node);
+    void Delete(Elem*);
     //получить корень
-    Elem *GetRoot();
+    Elem* GetRoot();
 };
-Tree::Tree() {
-    root_ = nullptr;
-}
-Tree::~Tree() {
-    while (root_ != 0)
-        Delete(root_);
-    cout << "~tree_removed\n";
-}
 //Рекурсивный обход дерева
-void Tree::Print(Elem *node) {
+void Tree::Print(Elem* node) {
     if (node == 0)
         return;
 
     Print(node->left);
-    cout << node->value << " ";
+    cout << node->key << " ";
     Print(node->right);
 }
 void Tree::Print() {
@@ -63,32 +54,32 @@ void Tree::Print() {
     Print(root_);
     cout << endl;
 }
-Elem *Tree::Search(Elem *node, int value) {
+Elem* Tree::Search(Elem* node, int key) {
     //Пока есть узлы и ключи не совпадают
-    while (node != 0 && value != node->value)
+    while (node != 0 && key != node->key)
     {
-        if (value < node->value)
+        if (key < node->key)
             node = node->left;
         else
             node = node->right;
     }
     return node;
 }
-Elem *Tree::Min(Elem *node) {
+Elem* Tree::Min(Elem* node) {
     //Поиск самого "левого" узла
     if (node != 0)
         while (node->left != 0)
             node = node->left;
     return node;
 }
-Elem *Tree::Max(Elem *node) {
+Elem* Tree::Max(Elem* node) {
     //Поиск самого "правого" узла
     if (node != 0)
         while (node->right != 0)
             node = node->right;
     return node;
 }
-Elem *Tree::Next(Elem *node) {
+Elem* Tree::Next(Elem* node) {
     if (node == 0)
         return nullptr;
 
@@ -97,7 +88,7 @@ Elem *Tree::Next(Elem *node) {
         return Min(node->right);
 
     //родитель узла
-    Elem *parent = node->parent;
+    Elem* parent = node->parent;
     //если node не корень и node справа
     while (parent != 0 && node == parent->right)
     {
@@ -107,7 +98,7 @@ Elem *Tree::Next(Elem *node) {
     }
     return parent;
 }
-Elem *Tree::Previous(Elem *node) {
+Elem* Tree::Previous(Elem* node) {
     if (node == 0)
         return nullptr;
 
@@ -116,7 +107,7 @@ Elem *Tree::Previous(Elem *node) {
         return Max(node->left);
 
     //родитель узла
-    Elem *parent = node->parent;
+    Elem* parent = node->parent;
     //если node не корень и node слева
     while (parent != 0 && node == parent->left)
     {
@@ -126,10 +117,10 @@ Elem *Tree::Previous(Elem *node) {
     }
     return parent;
 }
-Elem *Tree::GetRoot() {
+Elem* Tree::GetRoot() {
     return root_;
 }
-void Tree::Insert(Elem *node) {
+void Tree::Insert(Elem* node) {
     //потомков нет
     node->left = nullptr;
     node->right = nullptr;
@@ -140,14 +131,14 @@ void Tree::Insert(Elem *node) {
         return;
     }
         
-    Elem *temp = root_;
-    Elem *parent = nullptr;
+    Elem* temp = root_;
+    Elem* parent = nullptr;
     bool flag;
     while (temp != 0)
     {
         //будущий родитель
         parent = temp;
-        flag = node->value < temp->value;
+        flag = node->key < temp->key;
         if (flag)
             temp = temp->left;
         else
@@ -161,8 +152,8 @@ void Tree::Insert(Elem *node) {
     else
         parent->right = node;
 }
-void Tree::Delete(Elem *node) {
-    Elem *temp, *toDelete;
+void Tree::Delete(Elem* node) {
+    Elem* temp, *toDelete;
     //не 2 потомка
     if (node->left == 0 || node->right == 0)
         toDelete = node;
@@ -191,9 +182,14 @@ void Tree::Delete(Elem *node) {
     if (toDelete != node)
     {
         //Копирование данных узла
-        node->value = toDelete->value;
+        node->key = toDelete->key;
     }
     delete toDelete;
+}
+Tree::~Tree() {
+    while (root_ != 0)
+        Delete(root_);
+    cout << "~tree_removed\n";
 }
 
 int main()
@@ -212,7 +208,7 @@ int main()
         Elem* mid;
         Elem* el = arr.Min(arr.GetRoot());
         for(int i=0; i != size; ++i){
-            int x = el->value;
+            int x = el->key;
             if (x < 10)
                 cout << x << " ";
             el = arr.Next(el);
@@ -221,7 +217,7 @@ int main()
         }
         cout << "\n";
 
-        cout << mid->value << " removed\n";
+        cout << mid->key << " removed\n";
         arr.Delete(mid);        
         arr.Print();
     }

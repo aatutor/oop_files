@@ -2,106 +2,35 @@
 #include <string.h>
 using namespace std;
 
-// Animal
-class Animal {
-protected:
-	char name_[100];
-	char kind_[50];
-public:
-	Animal(const char *t, const char* p);
-	// чисто виртуальный метод (абстрактный)
-	virtual void Speak()=0;
-	virtual ~Animal() {};
+struct Point {
+	int x, y;
 };
-Animal::Animal(const char *t, const char* p){
-	strcpy(name_, t);
-	strcpy(kind_, p);
-}
 
-// Frog
-class Frog: public Animal {
+class Figure {};
+
+class Triangle: public Figure {
 public:
-	Frog( const char *name): Animal(name, "amphibian"){};
-	void Speak() override;
+	Triangle(Point,Point,Point){}
 };
-void Frog::Speak() {
-	cout << name_ <<" say \'kwa-kwa\'("<< kind_ <<")\n";
-}
-
-// Dog
-class Dog: public Animal {
+class Tetragon: public Figure {
 public:
-	Dog(const char *name): Animal(name, "animal"){};
-	void Speak() override;
+	Tetragon(Point*){}
 };
-void Dog::Speak() {
-	cout << name_ <<" say \'gav-gav\'("<< kind_ <<")\n";
-}
 
-// Cat
-class Cat: public Animal {
-public:
-	Cat(const char *name): Animal(name, "animal"){};
-	void Speak() override;
-};
-void Cat::Speak(){
-	cout << name_ <<" say \'mya-mya\'("<< kind_ <<")\n";
-}
-
-// Lion
-class Lion: public Cat {
-public:
-	char* zoo_;
-	Lion(const char *name, const char *z);
-	~Lion();
-	void Speak() override;
-};
-Lion::Lion(const char *name, const char *z): Cat(name) {
-	char t[]{"-hunter"};
-	strcat(kind_, "-hunter");
-
-	zoo_ = new char[100];
-	strcpy(zoo_, z);
-}
-Lion::~Lion() {
-	delete[] zoo_;
-}
-void Lion::Speak(){
-	cout << name_ <<" say \'rrr-rrr\'("<< kind_ <<": "<< zoo_ <<")\n";
-}
+void Foo(Figure** arr, int size){}
 
 int main ()
 {
 	{	
-		Animal *animals[4] = {new Dog("Jack"),
-							new Cat("Murka"),
-							new Frog("Bob"),
-							new Lion("King", "Taiga")};
+		Point p[4] {
+			{0,0}, {0,3}, {4,4}, {5,1}
+		};
+		Figure* figures[4] = {
+			new Triangle(p[0],p[1],p[3]),
+			new Tetragon(p)
+		};
 							
-		for(int k=0; k<4; k++)
-			animals[k]->Speak();
+		Foo(figures, 4);
 	}
-	{
-		Lion* lion = new Lion("Simba", "Africa");
-		char* s = lion->zoo_;
-		cout << s << endl;
-
-		delete lion;
-
-		cout << s << endl;
-	}
-	{
-		Lion* lion = new Lion("Simba", "Africa");
-		char* s = lion->zoo_;
-		cout << s << endl;
-
-		Animal* ptr = lion;
-		delete ptr;
-
-		cout << s << endl;
-	}
-
-
-
 	return 0;
 }

@@ -27,10 +27,10 @@ public:
 int main()
 {
 	{
-		A* ptrB = new A;
+		A* ptrA = new A;
+		ptrA->Test();
+		B* ptrB = reinterpret_cast<B*>(ptrA);
 		ptrB->Test();
-		B* ptrD = reinterpret_cast<B*>(ptrB);
-		ptrD->Test();
 	}
 	{
 		int x = 5;
