@@ -1,13 +1,14 @@
-// Вычислить среднюю оценку студента
 #include <iostream>
-#include <string> // подсключить класс string
-using namespace std;
+#include <string> // РІРєР»СЋС‡РёС‚СЊ РєР»Р°СЃСЃ string
 
 int main()
 {
+    using namespace std; // + std::string
+
     string h {"Hello"};    
     string w = "world";
     string str = h;
+    
     str += " " + w + "!";
 
     cout << str << endl;

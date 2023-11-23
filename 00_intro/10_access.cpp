@@ -1,6 +1,4 @@
-// Вычислить среднюю оценку студента
 #include <iostream>
-#include <math.h>
 using namespace std;
 
 struct Point {
@@ -10,7 +8,7 @@ struct Point {
 	public: double Print() {
 		cout <<"("<< x_ <<","<< y_ <<")";
 	}
-	public: void initPoint(int x, int y) {
+	public: void InitPoint(int x, int y) {
 		x_ = x;
 		y_ = y;
 	}
@@ -18,10 +16,11 @@ struct Point {
 
 int main()
 {
-	// Point point{3, 4}; // нельзя задать
+	// Point point{3, 4}; // нельзя задать private полям
 	
 	Point point;
-	point.initPoint(3, 4);// задать только так
+	point.InitPoint(3, 4);// задать только public методом
+	
     //cout <<"("<< point.x_ <<","<< point.y_ <<")";// нет доступа к полям
 	point.Print();
 

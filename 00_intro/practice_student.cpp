@@ -1,5 +1,4 @@
 #include <iostream>
-#include <iomanip>
 #include <cstring>
 using namespace std;
 
@@ -17,8 +16,7 @@ void PrintStudent(Student);
 
 int main()
 {
-    cout << "Student profile."
-        << endl << endl;
+    cout << "Student profile." << endl << endl;
 
     Student student;
     const char* studentName{ "Petrov A.O." };
@@ -27,7 +25,6 @@ int main()
     InitStudent(student, studentName, studentMarks);
     PrintStudent(student);
     cout << "Average mark: "
-        << fixed << setprecision(2)
         << AverageMark(student) << endl;
     return 0;
 }

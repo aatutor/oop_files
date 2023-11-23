@@ -1,7 +1,4 @@
-// Вычислить среднюю оценку студента
 #include <iostream>
-#include <math.h>
-using namespace std;
 
 struct Point {
 private: 
@@ -24,11 +21,19 @@ public:
 
 int main()
 {
+    using namespace std;
+    
     // Point point{3, 4}; // нельзя задать private полям
+
     Point point;
+
+    // сеттеры
     point.SetX(3);
     point.SetY(4);
-    cout <<"("<< point.GetX() <<","<< point.GetY() <<")"<< endl;
+
+                 // геттеры
+    cout <<"("<< point.GetX() 
+         <<","<< point.GetY() <<")"<< endl;
 
 	return 0;
 }
