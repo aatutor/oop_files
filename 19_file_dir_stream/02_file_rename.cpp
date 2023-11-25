@@ -48,13 +48,12 @@ int main(int argc, char *argv[])
 #if 1 // 1 - long variant
 void srch(string&&);
 void srch(const char* name) {
-#if 1 // oop style
+#if 0 // oop style
 	srch(string{ name });
 #else
 	_finddata_t* fileInfo = new _finddata_t;
 	char* path = strcat(name, "*");
 	long group = _findfirst(path, fileInfo);
-	// long group = _findfirst(name.append("*").c_str(), fileInfo);
  
 	int count = 0;
 	int srchResult = group;

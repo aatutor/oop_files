@@ -1,4 +1,4 @@
-// #define _CRT_SECURE_NO_WARNINGS
+ #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
 #include <io.h>
@@ -8,16 +8,16 @@ struct Man {
 	int age;
 };
 
-void Write() 
+void Write()
 {
 	Man src[2]{
 		{"Ivan", 35},
 		{"Petr", 18}
 	};
 
-	FILE* file = fopen("test.txt", "w");
+	FILE* file = fopen("test.txt", "wb");
 	if (!file)
-		return 1;
+		return;
 
 #if 1
 	fwrite(src, sizeof(Man), 2, file);
@@ -28,13 +28,13 @@ void Write()
 	fclose(file);
 }
 
-void Test2() {
+void Read() {
 	using namespace std;
 
 	Man dest[2];
-	FILE* file = fopen("test.txt", "r");
+	FILE* file = fopen("test.txt", "rb");
 	if (!file)
-		return 1;
+		return;
 
 #if 1
 	fread(dest, sizeof(Man), 2, file);
@@ -53,7 +53,7 @@ void Test2() {
 int main()
 {
 	Write();
-	Test2();
+	Read();
 
 	return 0;
 }

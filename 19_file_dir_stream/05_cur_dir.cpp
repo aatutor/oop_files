@@ -36,6 +36,7 @@ void Test()
 ostream& operator << (ostream& out, const char* str){
 	char rus[256];
 	CharToOemA(str, rus);
+	// out << rus;
 	// out << string{rus};
 	std::operator<<(out, rus);
 	return out;

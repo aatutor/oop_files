@@ -1,8 +1,4 @@
-// Вычислить среднюю оценку студента
 #include <iostream>
-#include <math.h>
-#include <string.h>
-using namespace std;
 
 struct Point {
 private: 
@@ -10,17 +6,16 @@ private:
     int y_;
 	char* name_ = nullptr;
 public: 
-	Point(): Point(0, 0) {
-	}
-	Point(int xy): Point(xy, xy) {}
-	Point(int x, int y, const char* name = "noname"){
+	Point(int x = 0, int y = 0, const char* name = "noname"){
 		name_ = new char[strlen(name)+1];
 		strcpy(name_, name);
-		cout << "Object created\n";
+
+		std::cout << "Object created\n";
 	}
 	~Point() {
 		delete name_;
-		cout << "Object deleted\n";
+		
+		std::cout << "Object deleted\n";
 	}
 };
 
